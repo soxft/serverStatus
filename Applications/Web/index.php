@@ -1,2 +1,10 @@
+<html>
 
-额
+<head>
+    <title>你炸了</title>
+</head>
+
+<body>
+</body>
+
+</html>
