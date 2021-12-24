@@ -2,6 +2,8 @@
 
 use \GatewayWorker\Lib\Gateway;
 
+use \Class\Tool;
+
 /**
  * 主逻辑
  * 主要是处理 onConnect onMessage onClose 三个方法
@@ -21,6 +23,7 @@ class Events
         Gateway::sendToClient($client_id, "Hello $client_id\r\n");
         // 向所有人发送
         Gateway::sendToAll("$client_id login\r\n");
+        Tool::outPut("$client_id connected");
     }
 
     /**

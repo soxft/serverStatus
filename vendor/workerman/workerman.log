@@ -18,3 +18,160 @@
 2021-12-24 03:43:45 pid:64421 Workerman[start.php] start in DEBUG mode
 2021-12-24 03:43:46 pid:64421 Workerman[start.php] stopping ...
 2021-12-24 03:43:46 pid:64421 Workerman[start.php] has been stopped
+2021-12-24 04:44:47 pid:65530 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:50:43 pid:65530 Workerman[start.php] stopping ...
+2021-12-24 04:50:43 pid:65530 Workerman[start.php] has been stopped
+2021-12-24 04:50:59 pid:66619 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:51:01 pid:66619 Workerman[start.php] stopping ...
+2021-12-24 04:51:01 pid:66619 Workerman[start.php] has been stopped
+2021-12-24 04:51:18 pid:66704 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:51:19 pid:66704 Workerman[start.php] stopping ...
+2021-12-24 04:51:19 pid:66704 Workerman[start.php] has been stopped
+2021-12-24 04:52:29 pid:66820 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:52:47 pid:66820 Workerman[start.php] stopping ...
+2021-12-24 04:52:47 pid:66820 Workerman[start.php] has been stopped
+2021-12-24 04:52:47 pid:66877 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:52:48 pid:66880 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#9 {main}
+2021-12-24 04:52:48 pid:66878 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#9 {main}
+2021-12-24 04:52:48 pid:66879 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#9 {main}
+2021-12-24 04:52:48 pid:66881 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#9 {main}
+2021-12-24 04:52:48 pid:66877 worker[Server_Bussiness_Worker:66880] exit with status 64000
+2021-12-24 04:52:48 pid:66877 worker[Server_Bussiness_Worker:66879] exit with status 64000
+2021-12-24 04:52:48 pid:66877 worker[Server_Bussiness_Worker:66878] exit with status 64000
+2021-12-24 04:52:48 pid:66877 worker[Server_Bussiness_Worker:66881] exit with status 64000
+2021-12-24 04:52:49 pid:66890 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1679): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1628): Workerman\Worker::monitorWorkersForLinux()
+#9 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(544): Workerman\Worker::monitorWorkers()
+#10 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#11 {main}
+2021-12-24 04:52:49 pid:66891 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1679): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1628): Workerman\Worker::monitorWorkersForLinux()
+#9 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(544): Workerman\Worker::monitorWorkers()
+#10 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#11 {main}
+2021-12-24 04:52:49 pid:66877 Workerman[start.php] stopping ...
+2021-12-24 04:52:49 pid:66889 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1679): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1628): Workerman\Worker::monitorWorkersForLinux()
+#9 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(544): Workerman\Worker::monitorWorkers()
+#10 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#11 {main}
+2021-12-24 04:52:49 pid:66888 ParseError: syntax error, unexpected identifier "Tool", expecting "function" or "const" in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:20
+Stack trace:
+#0 [internal function]: Workerman\Autoloader::loadByNamespace('Events')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(226): is_callable('Events::onWorke...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2405): GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1679): Workerman\Worker::forkWorkers()
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1628): Workerman\Worker::monitorWorkersForLinux()
+#9 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(544): Workerman\Worker::monitorWorkers()
+#10 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#11 {main}
+2021-12-24 04:52:49 pid:66877 worker[Server_Bussiness_Worker:66890] exit with status 64000
+2021-12-24 04:52:49 pid:66877 worker[Server_Bussiness_Worker:66891] exit with status 64000
+2021-12-24 04:52:49 pid:66877 worker[Server_Bussiness_Worker:66889] exit with status 64000
+2021-12-24 04:52:49 pid:66877 worker[Server_Bussiness_Worker:66888] exit with status 64000
+2021-12-24 04:52:49 pid:66877 Workerman[start.php] has been stopped
+2021-12-24 04:53:50 pid:66995 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:54:12 pid:66995 Workerman[start.php] stopping ...
+2021-12-24 04:54:12 pid:66995 Workerman[start.php] has been stopped
+2021-12-24 04:54:13 pid:67121 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:54:27 pid:67123 Error: Class "Server\Class\Tool" not found in /Users/xcsoft/store/project/php/workerman/serverStatus-server/Applications/Server/Events.php:26
+Stack trace:
+#0 [internal function]: Events::onConnect('7f0000010b54000...')
+#1 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(403): call_user_func('Events::onConne...', '7f0000010b54000...')
+#2 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Connection/TcpConnection.php(638): GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Events/Select.php(294): Workerman\Connection\TcpConnection->baseRead(Resource id #40)
+#4 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(2418): Workerman\Events\Select->loop()
+#5 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/gateway-worker/src/BusinessWorker.php(197): Workerman\Worker->run()
+#6 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1542): GatewayWorker\BusinessWorker->run()
+#7 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1373): Workerman\Worker::forkOneWorkerForLinux(Object(GatewayWorker\BusinessWorker))
+#8 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(1347): Workerman\Worker::forkWorkersForLinux()
+#9 /Users/xcsoft/store/project/php/workerman/serverStatus-server/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#10 /Users/xcsoft/store/project/php/workerman/serverStatus-server/start.php(37): Workerman\Worker::runAll()
+#11 {main}
+2021-12-24 04:54:27 pid:67121 worker[Server_Bussiness_Worker:67123] exit with status 64000
+2021-12-24 04:55:28 pid:67121 Workerman[start.php] stopping ...
+2021-12-24 04:55:28 pid:67121 Workerman[start.php] has been stopped
+2021-12-24 04:55:28 pid:67463 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:55:30 pid:67463 Workerman[start.php] stopping ...
+2021-12-24 04:55:30 pid:67463 Workerman[start.php] has been stopped
+2021-12-24 04:55:34 pid:67511 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:55:40 pid:67511 Workerman[start.php] stopping ...
+2021-12-24 04:55:40 pid:67511 Workerman[start.php] has been stopped
+2021-12-24 04:56:04 pid:67620 Workerman[start.php] start in DEBUG mode
+2021-12-24 04:56:07 pid:67620 Workerman[start.php] stopping ...
+2021-12-24 04:56:07 pid:67620 Workerman[start.php] has been stopped
