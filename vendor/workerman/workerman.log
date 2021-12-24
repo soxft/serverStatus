@@ -1,3 +1,20 @@
 2021-12-23 20:59:38 pid:128458 Workerman[start.php] start in DEBUG mode
 2021-12-23 21:00:53 pid:128458 Workerman[start.php] stopping ...
 2021-12-23 21:00:53 pid:128458 Workerman[start.php] has been stopped
+2021-12-24 03:38:56 pid:61809 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:40:16 pid:61809 Workerman[start.php] stopping ...
+2021-12-24 03:40:16 pid:61809 Workerman[start.php] has been stopped
+2021-12-24 03:40:19 pid:62268 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:40:33 pid:62268 Workerman[start.php] stopping ...
+2021-12-24 03:40:33 pid:62268 Workerman[start.php] has been stopped
+2021-12-24 03:41:21 pid:62807 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:41:26 pid:62832 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:42:56 pid:64051 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:43:44 pid:64051 Workerman[start.php] stopping ...
+2021-12-24 03:43:44 pid:64051 Workerman[start.php] has been stopped
+2021-12-24 03:43:44 pid:64389 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:43:45 pid:64389 Workerman[start.php] stopping ...
+2021-12-24 03:43:45 pid:64389 Workerman[start.php] has been stopped
+2021-12-24 03:43:45 pid:64421 Workerman[start.php] start in DEBUG mode
+2021-12-24 03:43:46 pid:64421 Workerman[start.php] stopping ...
+2021-12-24 03:43:46 pid:64421 Workerman[start.php] has been stopped
