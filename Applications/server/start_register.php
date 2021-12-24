@@ -9,7 +9,7 @@ use \GatewayWorker\Register;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$register = new Register('text://0.0.0.0:1238');
+$register = new Register('text://127.0.0.1:1238');
 
 if (!defined('GLOBAL_START')) {
     Worker::runAll();
