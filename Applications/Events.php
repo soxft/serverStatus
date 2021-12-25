@@ -45,7 +45,12 @@ class Events
                         Gateway::closeClient($client_id, json_encode(['type' => 'invalid_token']));
                         return;
                     }
+                    // 服务器加入成功 > 存入Group
                     Gateway::joinGroup($client_id, 'server');
+                    Gateway::updateSession($client_id, [
+                        'tag' => $msgData['tag'] ?? 'unKnow Server',
+                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1'
+                    ]); // 设置用户标签
                     Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
                 } else if ($platform == "web") {
                     //网页 状态展示
