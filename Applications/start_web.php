@@ -15,7 +15,7 @@ $http_worker = new Worker("http://0.0.0.0:2345");
 
 $http_worker->count = 1;
 
-define("WEBROOT", __DIR__ . "/web/");
+define("WEBROOT", __DIR__ . "/Web/");
 
 $http_worker->onMessage = function (TcpConnection $connection, Request $request) {
     $path = $request->path();

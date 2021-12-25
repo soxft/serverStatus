@@ -15,7 +15,7 @@ class Tool
     {
         \ob_start();
         try {
-            require_once $file;
+            require $file;
         } catch (\Exception $e) {
             echo $e;
         }
