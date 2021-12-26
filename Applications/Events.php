@@ -29,7 +29,7 @@ class Events
         }
         $type = $msgData['type'];
         if ($type !== 'ping') {
-            Tool::out("$client_id > $message");
+            Tool::out("$client_id > $message"); //TODO debug
         }
         switch ($type) {
             case "ping":
