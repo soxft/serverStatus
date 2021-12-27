@@ -1,2 +1,2 @@
 .DS_Store
-*.php.pid
+/vendor
