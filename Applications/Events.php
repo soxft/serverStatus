@@ -11,9 +11,8 @@ class Events
     public static function onConnect($client_id)
     {
         Tool::out("$client_id connected");
-        $auth_timer_id = Timer::add(15, function ($client_id) {
+        $auth_timer_id = Timer::add(10, function ($client_id) {
             Gateway::closeClient($client_id, json_encode(['type' => 'auth_timeout']));
-            Tool::out("$client_id > 认证超时,断开连接");
         }, array($client_id), false);
         Gateway::updateSession($client_id, array('auth_timer_id' => $auth_timer_id));
     }
@@ -39,39 +38,75 @@ class Events
                 $token = $msgData['token'] ?? '';
                 $platform = $msgData['platform'] ?? '';
                 if ($platform == "server") {
-                    //登录类型为服务器节点
+                    //服务器节点
                     if ($token !== SERVERTOKEN) {
                         Tool::out("$client_id > 非法的token,断开连接");
                         Gateway::closeClient($client_id, json_encode(['type' => 'invalid_token']));
                         return;
                     }
-                    // 服务器加入成功 > 存入Group
-                    Gateway::joinGroup($client_id, 'server');
-                    Gateway::updateSession($client_id, [
+                    $server_info = [
+                        'platform' => 'server',
                         'tag' => $msgData['tag'] ?? 'unKnow Server',
-                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1'
-                    ]); // 设置用户标签
+                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1',
+                        'online_time' => time(),
+                    ];
+
+                    Gateway::joinGroup($client_id, 'server');
+                    Gateway::updateSession($client_id, $server_info); // 设置用户标签
                     Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
-                } else if ($platform == "web") {
-                    //网页 状态展示
-                    Gateway::joinGroup($client_id, 'web');
-                    Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
+                    Gateway::sendToGroup("web", json_encode([
+                        'type' => 'server_online',
+                        "data" => $server_info,
+                    ]));
+                    Tool::out("$client_id > Server端认证成功");
                 } else {
-                    Tool::out("$client_id > 非法的token,断开连接");
-                    Gateway::closeClient($client_id, json_encode(['type' => 'invalid_token']));
-                    return;
+                    //网页
+                    Gateway::joinGroup($client_id, 'web');
+                    Gateway::updateSession($client_id, [
+                        'platform' => 'web',
+                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1',
+                    ]); // 
+                    Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
+                    Tool::out("$client_id > 网页认证成功");
                 }
                 Timer::del(Gateway::getSession($client_id)['auth_timer_id']); //删除Timer
                 break;
+            case 'get_server_list': //获取服务器列表
+                $list = Gateway::getClientIdListByGroup('server');
+                $server_lists = [];
+                foreach ($list as $key => $client_id) {
+                    $client_id_info = Gateway::getSession($client_id);
+                    array_push($server_lists, [
+                        "client_id" => $client_id,
+                        "ip" => $client_id_info['ip'],
+                        "tag" => $client_id_info['tag'],
+                        "online_time" => $client_id_info['online_time']
+                    ]);
+                }
+                Gateway::sendToCurrentClient(json_encode(['type' => 'server_list', 'data' => $server_lists]));
+                break;
+            case 'get_server_base_info': //获取服务器基础信息
+                $server_client_id = $msgData['client_id'] ?? null;
+                Gateway::sendToClient($server_client_id, json_encode(['type' => 'get_base_info', 'from_client_id' => $client_id]));
+                break;
+            case 'send_server_base_info': //服务器回传 基本信息
+                $server_base_info = $msgData['data'] ?? [];
+                $from_client_id = $msgData['data']['from_client_id'] ?? null;
+                unset($server_base_info['from_client_id']);
+                $server_base_info['tag'] = Gateway::getSession($client_id)['tag'];
+                Gateway::sendToClient($from_client_id, json_encode(['type' => 'server_base_info', 'client_id' => $client_id, 'server_base_info' => $server_base_info]));
+                break;
             default:
-                Tool::out("$client_id > 未知的请求类型,断开连接");
-                Gateway::closeClient($client_id, json_encode(['type' => 'unknow_request']));
+                Tool::out("$client_id > 未知的请求类型");
         }
     }
 
     public static function onClose($client_id)
     {
-        // GateWay::sendToAll("$client_id logout\r\n");
+        $client_platform = $_SESSION['platform'] ?? null;
+        if ($client_platform == 'server') {
+            GateWay::sendToGroup("web", json_encode(['type' => 'server_offline', 'client_id' => $client_id]));
+        }
         Tool::out("$client_id > logout");
     }
 }
