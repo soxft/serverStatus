@@ -16,14 +16,15 @@ jobs:
           go-version: "1.16.5"
 
       - name: build
+        working-directory: ./client
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o serverStatus-client_linux_amd64
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o serverStatus-client_linux_arm64
           CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o serverStatus-client_darwin_amd64
           CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o serverStatus-client_darwin_arm64
-        working-directory: ./client
         
       - name: Release
+        working-directory: ./client
         uses: softprops/action-gh-release@v1
         with:
           files: |
@@ -33,4 +34,3 @@ jobs:
             serverStatus-client_darwin_arm64            
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ./client
