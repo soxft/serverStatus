@@ -12,6 +12,7 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/load"
 	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/net"
 )
@@ -27,22 +28,24 @@ Exit:
 			break Exit
 		case <-time.After(time.Duration(2) * time.Second):
 			memInfo, _ := mem.VirtualMemory() //内存信息
-			memUsedPer := tool.Decimal(memInfo.UsedPercent)
-			//memAll := memInfo.Total
-			//memUsed := memInfo.Used
-			//memFree := memInfo.Free
-
-			//log.Println(memUsedPer, memAll, memFree, memUsed)
-
-			percent, _ := cpu.Percent(time.Second, false)
-			cpuPercent := tool.Decimal(percent[0])
-			//log.Println("cpu", cpuPercent)
+			cpuInfo, _ := cpu.Percent(time.Second, false)
+			loadInfo, _ := load.Avg()
 
 			serverBaseInfo, _ := json.Marshal(config.ServerInfo{
 				Type: "server_info",
 				Data: config.ServerInfoData{
-					CpuPercent: cpuPercent,
-					MemPercent: memUsedPer,
+					CpuPercent: tool.Decimal(cpuInfo[0], 2),
+					Memory: config.MemData{ //单位 兆字节
+						Percent: tool.Decimal(memInfo.UsedPercent, 2),
+						Total:   tool.MemTrans(memInfo.Total, 6),
+						Free:    tool.MemTrans(memInfo.Free, 5),
+						Used:    tool.MemTrans(memInfo.Used, 6),
+					},
+					Load: config.LoadData{
+						M1:  tool.Decimal(loadInfo.Load1, 2),
+						M5:  tool.Decimal(loadInfo.Load5, 2),
+						M15: tool.Decimal(loadInfo.Load15, 2),
+					},
 				},
 			})
 
@@ -59,24 +62,26 @@ Exit:
 
 // 获取服务器状态信息
 func GetSaerverInfo(conn *config.WsConn) {
-	percent, _ := cpu.Percent(time.Second, false)
-	log.Println("cpu", percent)
-	memInfo, _ := mem.VirtualMemory()
-	log.Println("mem", memInfo)
+
 	info2, _ := mem.SwapMemory() //SWAP
 	log.Println("swap", info2)
+
 	parts, _ := disk.Partitions(true)
 	diskInfo, _ := disk.Usage(parts[0].Mountpoint)
 	log.Println("disk", diskInfo)
 	log.Println("ddisk", parts)
 	info, _ := host.Info()
+
 	log.Println("host", info)
 	cp, _ := cpu.Info() //总体信息
 	log.Println("cpuInfo", cp)
 	c, _ := cpu.Counts(true) //cpu逻辑数量
+
 	fmt.Println(c)           //4
 	c, _ = cpu.Counts(false) //cpu物理核心
 	fmt.Println(c)           //如果是2说明是双核超线程, 如果是4则是4核非超线程
 	netInfo, _ := net.IOCounters(false)
 	fmt.Println("netInfo", netInfo)
+	loadAvg, _ := load.Avg()
+	fmt.Println("load", loadAvg)
 }

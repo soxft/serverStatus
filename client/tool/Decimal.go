@@ -1,12 +1,9 @@
 package tool
 
-import (
-	"fmt"
-	"strconv"
-)
+import "math"
 
-// 截取小数点后两位
-func Decimal(value float64) float64 {
-	value, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", value), 64)
-	return value
+// 对于Float64类型 截取小数点后两位
+func Decimal(value float64, fx int) float64 {
+	f := math.Pow10(fx)
+	return math.Trunc(value*f) / f
 }
