@@ -22,8 +22,6 @@ jobs:
         run: cd client && CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o serverStatus-client_darwin_amd64
       - name: darwin_arm64
         run: cd client && CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o serverStatus-client_darwin_arm64
-      - name: windows_amd64
-        run: cd client && CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o serverStatus-client_windows_amd64.exe
         
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -33,6 +31,5 @@ jobs:
             ./client/serverStatus-client_linux_arm64
             ./client/serverStatus-client_darwin_amd64
             ./client/serverStatus-client_darwin_arm64        
-            ./client/serverStatus-client_windows_amd64.exe    
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
