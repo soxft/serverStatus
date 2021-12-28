@@ -1,8 +1,9 @@
-name: serverStatus-client-go-build
+name: serverStatus client build
 
 on:
   push:
-    branch: [ main ]
+    branchs:
+      - main
 
 jobs:
   release:
@@ -14,16 +15,13 @@ jobs:
         with:
           go-version: "1.16.5"
 
-      - name: change fold
-        run: cd client
-      - name: linux_amd64
-        run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o serverStatus-client_linux_amd64
-      - name: linux_arm64
-        run: CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o serverStatus-client_linux_arm64
-      - name: darwin_amd64
-        run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o serverStatus-client_darwin_amd64
-      - name: darwin_arm64
-        run: CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o serverStatus-client_darwin_arm64
+      - name: build
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o serverStatus-client_linux_amd64
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o serverStatus-client_linux_arm64
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o serverStatus-client_darwin_amd64
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o serverStatus-client_darwin_arm64
+        working-directory: ./client
         
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -35,3 +33,4 @@ jobs:
             serverStatus-client_darwin_arm64            
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ./client
