@@ -27,10 +27,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./client/serverStatus-client_linux_amd64
-            ./client/serverStatus-client_linux_arm64
-            ./client/serverStatus-client_darwin_amd64
-            ./client/serverStatus-client_darwin_arm64        
+            serverStatus-client_linux_amd64
+            serverStatus-client_linux_arm64
+            serverStatus-client_darwin_amd64
+            serverStatus-client_darwin_arm64        
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ./client
