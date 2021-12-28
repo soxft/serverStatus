@@ -13,12 +13,7 @@ ws.onmessage = function (evt) {
 
   var type = resData.type
   if (type === 'login_success') {
-    ws.send(JSON.stringify({ 'type': 'get_server_list' }))
-  } else if (type === 'server_list') {
-    resData.data.map((item, index) => {
-      ws.send(JSON.stringify({ 'type': 'get_server_base_info', 'client_id': item.client_id }))
-      return index
-    })
+    
   }
 
 };

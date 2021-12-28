@@ -50,7 +50,6 @@ class Events
                         'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1',
                         'online_time' => time(),
                     ];
-
                     Gateway::joinGroup($client_id, 'server');
                     Gateway::updateSession($client_id, $server_info); // 设置用户标签
                     Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
@@ -58,43 +57,34 @@ class Events
                         'type' => 'server_online',
                         "data" => $server_info,
                     ]));
-                    Tool::out("$client_id > Server端认证成功");
                 } else {
                     //网页
                     Gateway::joinGroup($client_id, 'web');
                     Gateway::updateSession($client_id, [
                         'platform' => 'web',
                         'ip' => $_SERVER['REMOTE_ADDR'] ?? '1.1.1.1',
-                    ]); // 
-                    Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
-                    Tool::out("$client_id > 网页认证成功");
+                    ]); // 设置连接者信息
+
+                    // 发送当前连接者信息
+                    $list = Gateway::getClientIdListByGroup('server');
+                    $server_lists = [];
+                    foreach ($list as $key => $server_client_id) {
+                        $client_id_info = Gateway::getSession($server_client_id);
+                        array_push($server_lists, [
+                            "client_id" => $server_client_id,
+                            "ip" => $client_id_info['ip'],
+                            "tag" => $client_id_info['tag'],
+                            "online_time" => $client_id_info['online_time']
+                        ]);
+                    }
+                    Gateway::sendToCurrentClient(json_encode(['type' => 'login_success', 'server_list' => $server_lists]));
                 }
                 Timer::del(Gateway::getSession($client_id)['auth_timer_id']); //删除Timer
                 break;
-            case 'get_server_list': //获取服务器列表
-                $list = Gateway::getClientIdListByGroup('server');
-                $server_lists = [];
-                foreach ($list as $key => $client_id) {
-                    $client_id_info = Gateway::getSession($client_id);
-                    array_push($server_lists, [
-                        "client_id" => $client_id,
-                        "ip" => $client_id_info['ip'],
-                        "tag" => $client_id_info['tag'],
-                        "online_time" => $client_id_info['online_time']
-                    ]);
-                }
-                Gateway::sendToCurrentClient(json_encode(['type' => 'server_list', 'data' => $server_lists]));
-                break;
-            case 'get_server_base_info': //获取服务器基础信息
-                $server_client_id = $msgData['client_id'] ?? null;
-                Gateway::sendToClient($server_client_id, json_encode(['type' => 'get_base_info', 'from_client_id' => $client_id]));
-                break;
-            case 'send_server_base_info': //服务器回传 基本信息
+            case 'server_base_info': //服务器回传 基本信息
                 $server_base_info = $msgData['data'] ?? [];
-                $from_client_id = $msgData['data']['from_client_id'] ?? null;
-                unset($server_base_info['from_client_id']);
                 $server_base_info['tag'] = Gateway::getSession($client_id)['tag'];
-                Gateway::sendToClient($from_client_id, json_encode(['type' => 'server_base_info', 'client_id' => $client_id, 'server_base_info' => $server_base_info]));
+                Gateway::sendToGroup("web", json_encode(['type' => 'server_base_info', 'client_id' => $client_id, 'server_base_info' => $server_base_info]));
                 break;
             default:
                 Tool::out("$client_id > 未知的请求类型");
