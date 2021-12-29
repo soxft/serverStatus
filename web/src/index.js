@@ -20,7 +20,7 @@ const App = () => {
   };
 
   ws.onclose = function () {
-    console.log('Lost connection, try to reconnect in 1 second')
+    console.log('Lost connection, reconnect in 1 second')
     setTimeout(() => establish(), 1000)
   };
 
