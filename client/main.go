@@ -3,7 +3,9 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"os"
@@ -18,29 +20,55 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var connectingDown chan bool //服务器是否爆炸
+var connectingDown chan bool //服务器是否掉线
+var connected chan bool      //标识 是否连接到服务器
 var interrupt chan os.Signal
 var lock sync.Mutex
 
 // 服务器信息
 var TOKEN string = "xcsoft"
 var TAG string = "MBP"
-var SERVER string = "10.11.11.11:8282"
+var SERVER string = "127.0.0.1:8282"
 
 func main() {
 
 Exit:
 	for {
-		interrupt = make(chan os.Signal)
 		connectingDown = make(chan bool)
+		connected = make(chan bool)
+		interrupt = make(chan os.Signal)
 		signal.Notify(interrupt, os.Interrupt)
 
+		var wsconn *websocket.Conn
+		var err error
+
 		log.Println("尝试连接到服务器")
-		wsconn, _, err := websocket.DefaultDialer.Dial("ws://"+SERVER, nil)
-		if err != nil {
-			log.Println("无法连接到服务器,将在10秒后尝试重连 > ", err)
+		ctx, cancle := context.WithTimeout(context.Background(), time.Second*5)
+
+		defer cancle()
+		go func(_ context.Context) {
+			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+SERVER, nil)
+			connected <- true
+		}(ctx)
+
+	ConnecteDone: // 防止连接超时
+		for {
 			select {
-			case <-time.After(time.Duration(1) * time.Millisecond * 5000):
+			case <-connected:
+				break ConnecteDone
+			case <-ctx.Done():
+				err = errors.New("连接超时")
+				break ConnecteDone
+			case <-interrupt:
+				log.Println("Received SIGINT signal. Closing all pending connections and exiting...")
+				break Exit
+			}
+		}
+
+		if err != nil { //检测连接信息
+			log.Println("无法连接到服务器,将在5秒后尝试重连 > ", err)
+			select {
+			case <-time.After(time.Duration(5) * time.Second):
 				continue
 			case <-interrupt:
 				log.Println("Received SIGINT signal.Exiting...")
@@ -50,6 +78,7 @@ Exit:
 
 		defer wsconn.Close()
 
+		//连接成功
 		conn := config.WsConn{
 			Conn: wsconn,
 			Lock: &lock,
@@ -83,9 +112,9 @@ Exit:
 					break mainLoop
 				}
 			case <-connectingDown:
-				log.Println("与服务器失去连接,5秒后尝试重连")
+				log.Println("与服务器失去连接,2秒后尝试重连")
 				select {
-				case <-time.After(time.Duration(1) * time.Millisecond * 5000):
+				case <-time.After(time.Duration(2) * time.Second):
 					break mainLoop
 				case <-interrupt:
 					log.Println("Received SIGINT signal. Closing all pending connections and exiting...")

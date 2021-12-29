@@ -5,7 +5,7 @@ var ws;
 
 const establish = () => {
   console.log("Try to connect to server")
-  ws = new WebSocket("ws://10.11.11.11:8282");
+  ws = new WebSocket("ws://127.0.0.1:8282");
 }
 
 establish()
