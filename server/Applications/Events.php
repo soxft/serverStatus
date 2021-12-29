@@ -41,7 +41,7 @@ class Events
 
                 if ($platform == "server") {
                     //服务器节点
-                    if ($token !== SERVERTOKEN) {
+                    if ($token !== TOKEN) {
                         Tool::out("$client_id 非法的token,断开连接");
                         Gateway::closeClient($client_id, json_encode(['type' => 'invalid_token']));
                         return;

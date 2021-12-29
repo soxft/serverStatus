@@ -1,3 +1,3 @@
 <?php
 
-const SERVERTOKEN = 'xcsoft'; // Client连接TOKEN
+const TOKEN = 'xcsoft'; // Client连接TOKEN
