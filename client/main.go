@@ -39,7 +39,7 @@ func main() {
 		tag = "unknow"
 	}
 	flag.StringVar(&clitoken, "token", "", "token of server")
-	flag.StringVar(&clihost, "host", "", "server ip:port, example:127.0.0.1:8282")
+	flag.StringVar(&clihost, "host", "", "server ip:port, ex: 127.0.0.1:8282")
 	flag.StringVar(&clitag, "tag", tag, "server tag")
 
 	flag.Parse()

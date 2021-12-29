@@ -11,6 +11,19 @@ a simple serverStatus monitor
 |_ client  服务器客户端
 ```
 
+## client 端使用方法
+```shell
+  Usage of serverStatus:
+    -host string
+          server ip:port, example:127.0.0.1:8282
+    -tag string
+          server tag
+    -token string
+          token of server
+```
+- 其中host用于指明服务器地址, tag用于表注服务器名称, token为服务端验证token
+- 命令执行格式: `./serverStatus -host=127.0.0.1:8282 -tag=server1 -token=myToken`
+
 ## copyright
 
 - 服务端基于 Gateway-workerman
