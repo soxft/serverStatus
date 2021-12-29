@@ -40,7 +40,6 @@ const App = () => {
       let serverListTemp = { ...serverList }
       serverListTemp[resData.client_id]['data'] = resData.data
       setServerList(serverListTemp)
-      console.log(serverList)
     }
   };
 
@@ -56,8 +55,14 @@ const App = () => {
     {
       Object.keys(serverList).map((client_id, index) => {
         if (!client_id) return <></>;
-        let itemData = serverList[client_id]['data']
-        return <RingProgress key={index} {...cpuBaseConfig} percent={itemData === undefined ? 0.1 : itemData.cpu_percent} />
+        let serverInfo = serverList[client_id]
+        let itemData = serverInfo['data']
+        return (
+          <div key={index}>
+            <div>{serverInfo.tag}</div>
+            <RingProgress key={index} {...cpuBaseConfig} percent={itemData === undefined ? 0.1 : itemData.cpu_percent} />
+          </div>
+        )
       })
     }
   </>;

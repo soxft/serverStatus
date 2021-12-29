@@ -34,9 +34,9 @@ Exit:
 			serverBaseInfo, _ := json.Marshal(config.ServerInfo{
 				Type: "server_info",
 				Data: config.ServerInfoData{
-					CpuPercent: tool.Decimal(cpuInfo[0]/100, 2),
+					CpuPercent: tool.Decimal(cpuInfo[0]/100, 4),
 					Memory: config.MemData{ //单位 兆字节
-						Percent: tool.Decimal(memInfo.UsedPercent/100, 2),
+						Percent: tool.Decimal(memInfo.UsedPercent/100, 4),
 						Total:   tool.MemTrans(memInfo.Total, 6),
 						Free:    tool.MemTrans(memInfo.Free, 5),
 						Used:    tool.MemTrans(memInfo.Used, 6),
