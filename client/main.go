@@ -28,16 +28,16 @@ var lock sync.Mutex
 // 服务器信息
 var TOKEN string = "xcsoft"
 var TAG string = "MBP"
-var SERVER string = "127.0.0.1:8282"
+var SERVER string = "10.1.1.5:8282"
 
 func main() {
+	interrupt = make(chan os.Signal)
+	signal.Notify(interrupt, os.Interrupt)
 
 Exit:
 	for {
-		connectingDown = make(chan bool)
 		connected = make(chan bool)
-		interrupt = make(chan os.Signal)
-		signal.Notify(interrupt, os.Interrupt)
+		connectingDown = make(chan bool)
 
 		var wsconn *websocket.Conn
 		var err error
@@ -48,17 +48,19 @@ Exit:
 		defer cancle()
 		go func(_ context.Context) {
 			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+SERVER, nil)
-			connected <- true
+			if err == nil {
+				connected <- true
+			}
 		}(ctx)
 
-	ConnecteDone: // 防止连接超时
+	ConnectedDone: // 防止连接超时
 		for {
 			select {
 			case <-connected:
-				break ConnecteDone
+				break ConnectedDone
 			case <-ctx.Done():
 				err = errors.New("连接超时")
-				break ConnecteDone
+				break ConnectedDone
 			case <-interrupt:
 				log.Println("Received SIGINT signal. Closing all pending connections and exiting...")
 				break Exit

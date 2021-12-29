@@ -1,28 +1,18 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-var ws;
+import ReconnectingWebSocket from 'reconnecting-websocket'
 
-const establish = () => {
-  console.log("Try to connect to server")
-  ws = new WebSocket("ws://127.0.0.1:8282");
-}
+console.log("Try to connect to server")
+var ws = new ReconnectingWebSocket("ws://127.0.0.1:8282");
 
-establish()
+ws.onopen = function () {
+  ws.send(JSON.stringify({ 'type': 'login' }));
+};
 
 const App = () => {
 
   const [serverInfo, setServerInfo] = useState([]);
-
-
-  ws.onopen = function () {
-    ws.send(JSON.stringify({ 'type': 'login' }));
-  };
-
-  ws.onclose = function () {
-    console.log('Lost connection, reconnect in 1 second')
-    setTimeout(() => establish(), 1000)
-  };
 
   ws.onmessage = function (evt) {
     var resData = JSON.parse(evt.data)

@@ -10,7 +10,7 @@ class Events
 {
     public static function onConnect($client_id)
     {
-        $auth_timer_id = Timer::add(10, function ($client_id) {
+        $auth_timer_id = Timer::add(5, function ($client_id) {
             Gateway::closeClient($client_id, json_encode(['type' => 'auth_timeout']));
         }, array($client_id), false);
         Gateway::updateSession($client_id, array('auth_timer_id' => $auth_timer_id));
@@ -47,14 +47,13 @@ class Events
                         return;
                     }
                     $tag = $recv['tag'] ?? 'unKnow Server';
-                    $server_info = [
+                    Gateway::joinGroup($client_id, 'server'); // 加入server群组
+                    Gateway::updateSession($client_id, [ //标识设备信息
                         'platform' => 'server',
                         'tag' => $tag,
                         'ip' => $client_ip,
                         'online_time' => time(),
-                    ];
-                    Gateway::joinGroup($client_id, 'server');
-                    Gateway::updateSession($client_id, $server_info); // 设置用户标签
+                    ]); // 设置用户标签
                     Gateway::sendToClient($client_id, json_encode(['type' => 'login_success'])); //通知服务器 连接成功
                     Gateway::sendToGroup("web", json_encode([
                         'type' => 'server_online',
@@ -89,7 +88,7 @@ class Events
                     Gateway::sendToCurrentClient(json_encode(['type' => 'login_success', 'server_list' => $server_lists]));
                     //Tool::out("${client_id} (web) 连接到服务器");
                 }
-                Timer::del(Gateway::getSession($client_id)['auth_timer_id']); //删除Timer
+                Timer::del(Gateway::getSession($client_id)['auth_timer_id'] ?? ''); //删除Timer
                 break;
             case 'server_info': //服务器回传 基本信息
                 $server_info = $recv['data'] ?? [];
