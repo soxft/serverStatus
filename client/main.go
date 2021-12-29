@@ -24,7 +24,7 @@ var lock sync.Mutex
 
 // 服务器信息
 var TOKEN string = "xcsoft"
-var TAG string = "macbook"
+var TAG string = "MBP"
 var SERVER string = "10.11.11.11:8282"
 
 func main() {

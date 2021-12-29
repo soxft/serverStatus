@@ -55,11 +55,16 @@ class Events
                     ];
                     Gateway::joinGroup($client_id, 'server');
                     Gateway::updateSession($client_id, $server_info); // 设置用户标签
-                    Gateway::sendToClient($client_id, json_encode(['type' => 'login_success']));
+                    Gateway::sendToClient($client_id, json_encode(['type' => 'login_success'])); //通知服务器 连接成功
                     Gateway::sendToGroup("web", json_encode([
                         'type' => 'server_online',
-                        "data" => $server_info,
-                    ]));
+                        "data" => [
+                            'client_id' => $client_id,
+                            'tag' => $tag,
+                            'ip' => $client_ip,
+                            'online_time' => time(),
+                        ],
+                    ])); //通知前端网页
                     Tool::out("${client_id} ${tag} 连接到服务器");
                 } else {
                     //网页
@@ -76,8 +81,8 @@ class Events
                         $client_id_info = Gateway::getSession($server_client_id);
                         array_push($server_lists, [
                             "client_id" => $server_client_id,
-                            "ip" => $client_id_info['ip'],
                             "tag" => $client_id_info['tag'],
+                            "ip" => $client_id_info['ip'],
                             "online_time" => $client_id_info['online_time']
                         ]);
                     }
