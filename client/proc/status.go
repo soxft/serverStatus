@@ -26,7 +26,7 @@ Exit:
 		select {
 		case <-*conn.Down:
 			break Exit
-		case <-time.After(time.Duration(2) * time.Second):
+		case <-time.After(time.Duration(1) * time.Second):
 			memInfo, _ := mem.VirtualMemory() //内存信息
 			cpuInfo, _ := cpu.Percent(time.Second, false)
 			loadInfo, _ := load.Avg()
@@ -34,9 +34,9 @@ Exit:
 			serverBaseInfo, _ := json.Marshal(config.ServerInfo{
 				Type: "server_info",
 				Data: config.ServerInfoData{
-					CpuPercent: tool.Decimal(cpuInfo[0], 2),
+					CpuPercent: tool.Decimal(cpuInfo[0]/100, 2),
 					Memory: config.MemData{ //单位 兆字节
-						Percent: tool.Decimal(memInfo.UsedPercent, 2),
+						Percent: tool.Decimal(memInfo.UsedPercent/100, 2),
 						Total:   tool.MemTrans(memInfo.Total, 6),
 						Free:    tool.MemTrans(memInfo.Free, 5),
 						Used:    tool.MemTrans(memInfo.Used, 6),

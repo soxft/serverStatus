@@ -33,9 +33,12 @@ class Events
         }
         switch ($type) {
             case "ping":
+                //心跳
                 Gateway::sendToClient($client_id, json_encode(['type' => 'pong']));
                 break;
+
             case "login":
+                //登录到服务器
                 $token = $recv['token'] ?? '';
                 $platform = $recv['platform'] ?? '';
 
@@ -57,8 +60,8 @@ class Events
                     Gateway::sendToClient($client_id, json_encode(['type' => 'login_success'])); //通知服务器 连接成功
                     Gateway::sendToGroup("web", json_encode([
                         'type' => 'server_online',
+                        'client_id' => $client_id,
                         "data" => [
-                            'client_id' => $client_id,
                             'tag' => $tag,
                             'ip' => $client_ip,
                             'online_time' => time(),
@@ -78,23 +81,25 @@ class Events
                     $server_lists = [];
                     foreach ($list as $key => $server_client_id) {
                         $client_id_info = Gateway::getSession($server_client_id);
-                        array_push($server_lists, [
-                            "client_id" => $server_client_id,
+                        $server_lists[$server_client_id] = [
                             "tag" => $client_id_info['tag'],
                             "ip" => $client_id_info['ip'],
                             "online_time" => $client_id_info['online_time']
-                        ]);
+                        ];
                     }
                     Gateway::sendToCurrentClient(json_encode(['type' => 'login_success', 'server_list' => $server_lists]));
                     //Tool::out("${client_id} (web) 连接到服务器");
                 }
                 Timer::del(Gateway::getSession($client_id)['auth_timer_id'] ?? ''); //删除Timer
                 break;
-            case 'server_info': //服务器回传 基本信息
+
+            case 'server_info':
+                //服务器回传 基本信息
                 $server_info = $recv['data'] ?? [];
                 $server_info['tag'] = Gateway::getSession($client_id)['tag'];
-                Gateway::sendToGroup("web", json_encode(['type' => 'server_info', 'client_id' => $client_id, 'server_info' => $server_info]));
+                Gateway::sendToGroup("web", json_encode(['type' => 'server_info', 'client_id' => $client_id, 'data' => $server_info]));
                 break;
+
             default:
                 Tool::out("$client_id 未知的请求类型");
         }
