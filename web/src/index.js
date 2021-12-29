@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
-console.log("Try to connect to server")
 var ws = new ReconnectingWebSocket("ws://127.0.0.1:8282");
 
 ws.onopen = function () {

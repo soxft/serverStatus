@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"flag"
 	"io/ioutil"
 	"log"
 	"os"
@@ -25,12 +26,30 @@ var connected chan bool      //标识 是否连接到服务器
 var interrupt chan os.Signal
 var lock sync.Mutex
 
-// 服务器信息
-var TOKEN string = "xcsoft"
-var TAG string = "MBP"
-var SERVER string = "10.1.1.5:8282"
+// 定义命令行参数 > 服务器信息
+var clitoken string
+var clitag string
+var clihost string
 
 func main() {
+
+	// 解析命令行
+	tag, err := os.Hostname() //获取主机名 用于default tag
+	if err != nil {
+		tag = "unknow"
+	}
+	flag.StringVar(&clitoken, "token", "", "token of server")
+	flag.StringVar(&clihost, "host", "", "server ip:port, example:127.0.0.1:8282")
+	flag.StringVar(&clitag, "tag", tag, "server tag")
+
+	flag.Parse()
+	if flag.NArg() > 0 || clitoken == "" || clihost == "" { //未知信息
+		flag.Usage()
+		os.Exit(0)
+	}
+
+	// 解析命令行END
+
 	interrupt = make(chan os.Signal)
 	signal.Notify(interrupt, os.Interrupt)
 
@@ -47,7 +66,7 @@ Exit:
 
 		defer cancle()
 		go func(_ context.Context) {
-			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+SERVER, nil)
+			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+clihost, nil)
 			if err == nil {
 				connected <- true
 			}
@@ -93,8 +112,8 @@ Exit:
 		data, _ := json.Marshal(config.Login{
 			Type:     "login",
 			Platform: "server",
-			Tag:      TAG,
-			Token:    TOKEN,
+			Tag:      clitag,
+			Token:    clitoken,
 		})
 		err = conn.Conn.WriteMessage(websocket.TextMessage, []byte(data))
 		if err != nil {
@@ -163,6 +182,8 @@ func receiveHandler(conn *config.WsConn) {
 			go proc.GetServerInfo(conn)
 		} else if re["type"] == "ping" {
 			go proc.Ping(conn)
+		} else if re["type"] == "invalid_token" {
+			log.Fatal("错误的TOKEN,请检查token是否正确")
 		}
 	}
 }
