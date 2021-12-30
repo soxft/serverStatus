@@ -22,16 +22,27 @@ $http_worker->onMessage = function (TcpConnection $connection, Request $request)
     $request_method = $request->method(); // 请求方式 post,get etc
     $userIp = $request->header('x-real-ip'); //获取真实ip
 
-    Tool::out("{$userIp} > {$request_method} > {$path}", 'WEB');
+    //Tool::out("{$userIp} > {$request_method} > {$path}", 'WEB');
 
     $response = new Response(200);
-    $response->withHeaders([
-        'Content-Type' => 'text/html; charset=utf-8',
-        'Access-Control-Allow-Methods' => 'GET'
-    ]);
 
-    if ($path == "/" || $path == "") $path = "index.php"; //默认文档
+    if ($path == "/" || $path == "") $path = "index.html"; //默认文档
     if (file_exists(WEBROOT . $path)) {
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        switch ($ext) {
+            case 'js':
+                $content_type = 'application/javascript';
+                break;
+            case 'css':
+                $content_type = 'text/css';
+                break;
+            default:
+                $content_type = 'text/html';
+                break;
+        }
+        $response->withHeaders([
+            'Content-Type' => $content_type,
+        ]);
         $response->withBody(Tool::exec_php_file(WEBROOT . $path));
     } else {
         $response->withStatus(404);

@@ -7,6 +7,7 @@
 use \Workerman\Worker;
 use \GatewayWorker\Gateway;
 
+require_once __DIR__ . "/config.php";
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $gateway = new Gateway("websocket://0.0.0.0:" . SERVICEPORT);
