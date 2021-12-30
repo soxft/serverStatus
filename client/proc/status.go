@@ -10,7 +10,6 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/load"
 	"github.com/shirou/gopsutil/mem"
@@ -27,16 +26,33 @@ Exit:
 		case <-*conn.Down:
 			break Exit
 		case <-time.After(time.Duration(1) * time.Second):
-			memInfo, _ := mem.VirtualMemory() //内存信息
-			cpuInfo, _ := cpu.Percent(time.Second, false)
-			loadInfo, _ := load.Avg()
+			memInfo, _ := mem.VirtualMemory()                //内存信息
+			cpuPercent, _ := cpu.Percent(time.Second, false) //cpu占用率
+			cpuPhysicalCores, _ := cpu.Counts(false)         //cpu物理核心
+			cpuLogicalCores, _ := cpu.Counts(true)           //cpu逻辑数量
+			cpuInfo, cpuErr := cpu.Info()                    //cpu详细信息
+			loadInfo, _ := load.Avg()                        //负载信息
+			swapInfo, _ := mem.SwapMemory()                  //SWAP
+			hostInfo, _ := host.Info()                       //host信息
+
+			var cpu_modal_name string
+			if cpuErr == nil {
+				cpu_modal_name = cpuInfo[0].ModelName
+			} else {
+				cpu_modal_name = ""
+			}
 
 			serverBaseInfo, _ := json.Marshal(config.ServerInfo{
 				Type: "server_info",
 				Data: config.ServerInfoData{
-					CpuPercent: tool.Decimal(cpuInfo[0]/100, 4),
+					Cpu: config.CpuData{
+						Percent:       tool.Decimal(cpuPercent[0], 2),
+						PhysicalCores: cpuPhysicalCores,
+						LogicalCores:  cpuLogicalCores,
+						ModalName:     cpu_modal_name,
+					},
 					Memory: config.MemData{ //单位 兆字节
-						Percent: tool.Decimal(memInfo.UsedPercent/100, 4),
+						Percent: tool.Decimal(memInfo.UsedPercent, 2),
 						Total:   tool.MemTrans(memInfo.Total, 6),
 						Free:    tool.MemTrans(memInfo.Free, 5),
 						Used:    tool.MemTrans(memInfo.Used, 6),
@@ -45,6 +61,26 @@ Exit:
 						M1:  tool.Decimal(loadInfo.Load1, 2),
 						M5:  tool.Decimal(loadInfo.Load5, 2),
 						M15: tool.Decimal(loadInfo.Load15, 2),
+					},
+					Swap: config.SwapData{
+						Percent: tool.Decimal(swapInfo.UsedPercent, 2),
+						Total:   tool.MemTrans(swapInfo.Total, 6),
+						Free:    tool.MemTrans(swapInfo.Free, 5),
+						Used:    tool.MemTrans(swapInfo.Used, 6),
+					},
+					Host: config.HostData{
+						HostName:             hostInfo.Hostname,
+						UpTime:               hostInfo.Uptime,
+						BootTime:             hostInfo.BootTime,
+						Procs:                hostInfo.Procs,
+						Os:                   hostInfo.OS,
+						Platform:             hostInfo.Platform,
+						PlatformFamily:       hostInfo.PlatformFamily,
+						PlatformVersion:      hostInfo.PlatformVersion,
+						KernelArch:           hostInfo.KernelArch,
+						KernelVersion:        hostInfo.KernelVersion,
+						VirtualizationRole:   hostInfo.VirtualizationRole,
+						VirtualizationSystem: hostInfo.VirtualizationSystem,
 					},
 				},
 			})
@@ -61,27 +97,8 @@ Exit:
 }
 
 // 获取服务器状态信息
-func GetSaerverInfo(conn *config.WsConn) {
+func GetSaerverInfo() {
 
-	info2, _ := mem.SwapMemory() //SWAP
-	log.Println("swap", info2)
-
-	parts, _ := disk.Partitions(true)
-	diskInfo, _ := disk.Usage(parts[0].Mountpoint)
-	log.Println("disk", diskInfo)
-	log.Println("ddisk", parts)
-	info, _ := host.Info()
-
-	log.Println("host", info)
-	cp, _ := cpu.Info() //总体信息
-	log.Println("cpuInfo", cp)
-	c, _ := cpu.Counts(true) //cpu逻辑数量
-
-	fmt.Println(c)           //4
-	c, _ = cpu.Counts(false) //cpu物理核心
-	fmt.Println(c)           //如果是2说明是双核超线程, 如果是4则是4核非超线程
-	netInfo, _ := net.IOCounters(false)
+	netInfo, _ := net.Interfaces()
 	fmt.Println("netInfo", netInfo)
-	loadAvg, _ := load.Avg()
-	fmt.Println("load", loadAvg)
 }

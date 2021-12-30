@@ -96,8 +96,8 @@ class Events
             case 'server_info':
                 //服务器回传 基本信息
                 $server_info = $recv['data'] ?? [];
-                $server_info['tag'] = Gateway::getSession($client_id)['tag'];
-                Gateway::sendToGroup("web", json_encode(['type' => 'server_info', 'client_id' => $client_id, 'data' => $server_info]));
+                $tag = Gateway::getSession($client_id)['tag'] ?? '';
+                Gateway::sendToGroup("web", json_encode(['type' => 'server_info', 'tag' => $tag, 'client_id' => $client_id, 'data' => $server_info]));
                 break;
 
             default:

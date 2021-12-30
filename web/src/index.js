@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Progress } from 'antd'
+import 'antd/dist/antd.css';
+
 import ReconnectingWebSocket from 'reconnecting-websocket'
-import { RingProgress } from '@ant-design/charts';
 
 
 var ws = new ReconnectingWebSocket("ws://127.0.0.1:8282");
@@ -43,13 +45,6 @@ const App = () => {
     }
   };
 
-  const cpuBaseConfig = {
-    height: 100,
-    width: 100,
-    autoFit: false,
-    percent: 1,
-    color: ['#5B8FF9', '#E8EDF3'],
-  };
 
   return <>
     {
@@ -57,12 +52,26 @@ const App = () => {
         if (!client_id) return <></>;
         let serverInfo = serverList[client_id]
         let itemData = serverInfo['data']
-        return (
-          <div key={index}>
-            <div>{serverInfo.tag}</div>
-            <RingProgress key={index} {...cpuBaseConfig} percent={itemData === undefined ? 0.1 : itemData.cpu_percent} />
-          </div>
-        )
+
+        if (itemData === undefined) {
+          return (
+            <div key={index}>
+              <div>{serverInfo.tag}</div>
+              <p>waiting data from server...</p>
+            </div>
+          );
+        } else {
+          let cpu_percent = itemData.Cpu.Percent
+          let memory_percent = itemData.Memory.Percent
+
+          return (
+            <div key={index}>
+              <div>{serverInfo.tag}</div>
+              <Progress width={80} type="circle" percent={cpu_percent} />
+              <Progress width={80} type="circle" percent={memory_percent} />
+            </div>
+          )
+        }
       })
     }
   </>;

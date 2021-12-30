@@ -29,5 +29,4 @@ a simple serverStatus monitor
 - 服务端基于 Gateway-workerman
 - 网页使用 React 框架构建
   - 前端样式采用 Ant Design
-  - 图表采用 Ant Design Charts
 - 客户端采用 Golang 开发
