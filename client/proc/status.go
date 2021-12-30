@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"serverStatus-client/config"
-	"serverStatus-client/tool"
+	"serverStatus/config"
+	"serverStatus/tool"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -35,12 +35,14 @@ Exit:
 			swapInfo, _ := mem.SwapMemory()                  //SWAP
 			hostInfo, _ := host.Info()                       //host信息
 
-			var cpu_modal_name string
+			var cpuModalName string
+			log.Println(cpuErr)
 			if cpuErr == nil {
-				cpu_modal_name = cpuInfo[0].ModelName
+				cpuModalName = cpuInfo[0].ModelName
 			} else {
-				cpu_modal_name = ""
+				cpuModalName = ""
 			}
+			log.Println(cpuModalName)
 
 			serverBaseInfo, _ := json.Marshal(config.ServerInfo{
 				Type: "server_info",
@@ -49,7 +51,7 @@ Exit:
 						Percent:       tool.Decimal(cpuPercent[0], 2),
 						PhysicalCores: cpuPhysicalCores,
 						LogicalCores:  cpuLogicalCores,
-						ModalName:     cpu_modal_name,
+						ModalName:     cpuModalName,
 					},
 					Memory: config.MemData{ //单位 兆字节
 						Percent: tool.Decimal(memInfo.UsedPercent, 2),

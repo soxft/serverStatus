@@ -2,7 +2,7 @@ package proc
 
 import (
 	"encoding/json"
-	"serverStatus-client/config"
+	"serverStatus/config"
 
 	"github.com/gorilla/websocket"
 )

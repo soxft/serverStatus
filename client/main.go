@@ -11,8 +11,8 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"serverStatus-client/config"
-	"serverStatus-client/proc"
+	"serverStatus/config"
+	"serverStatus/proc"
 	"sync"
 
 	"strings"

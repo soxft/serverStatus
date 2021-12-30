@@ -17,19 +17,25 @@ jobs:
       - name: build
         run: |
           cd ./client
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o serverStatus-client_linux_amd64
-          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o serverStatus-client_linux_arm64
-          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o serverStatus-client_darwin_amd64
-          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o serverStatus-client_darwin_arm64
+          CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -o serverStatus_linux_386
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o serverStatus_linux_amd64
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -o serverStatus_linux_arm
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o serverStatus_linux_arm64
+          CGO_ENABLED=0 GOOS=freebsd GOARCH=386 go build -o serverStatus_freebsd_386
+          CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -o serverStatus_freebsd_amd64
+          CGO_ENABLED=0 GOOS=freebsd GOARCH=arm go build -o serverStatus_freebsd_arm
         
       - if: startsWith(github.ref, 'refs/tags/')
         name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./client/serverStatus-client_linux_amd64
-            ./client/serverStatus-client_linux_arm64
-            ./client/serverStatus-client_darwin_amd64
-            ./client/serverStatus-client_darwin_arm64        
+            ./client/serverStatus_linux_386
+            ./client/serverStatus_linux_amd64
+            ./client/serverStatus_linux_arm
+            ./client/serverStatus_linux_arm64  
+            ./client/serverStatus_freebsd_386
+            ./client/serverStatus_freebsd_amd64
+            ./client/serverStatus_freebsd_arm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
