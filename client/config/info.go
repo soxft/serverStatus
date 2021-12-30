@@ -12,6 +12,7 @@ type ServerInfoData struct {
 	Memory MemData
 	Swap   SwapData
 	Host   HostData
+	Time   int64
 }
 
 type CpuData struct {
@@ -29,16 +30,16 @@ type LoadData struct {
 
 type MemData struct {
 	Percent float64
-	Total   float64
-	Free    float64
-	Used    float64
+	Total   uint64
+	Free    uint64
+	Used    uint64
 }
 
 type SwapData struct {
 	Percent float64
-	Total   float64
-	Free    float64
-	Used    float64
+	Total   uint64
+	Free    uint64
+	Used    uint64
 }
 
 type HostData struct {
@@ -59,3 +60,9 @@ type HostData struct {
 /*
 host {"hostname":"xcsoftsMBP","uptime":687914,"bootTime":1640163711,"procs":543,"os":"darwin","platform":"darwin","platformFamily":"Standalone Workstation","platformVersion":"12.1","kernelVersion":"21.2.0","kernelArch":"arm64","virtualizationSystem":"","virtualizationRole":"","hostid":"587318cb-673c-59d4-a062-31388a36e0ae"}
 */
+
+type ServerBaseInfo struct {
+	LogicalCores  int
+	PhysicalCores int
+	ModalName     string
+}

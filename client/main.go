@@ -27,23 +27,25 @@ var interrupt chan os.Signal
 var lock sync.Mutex
 
 // 定义命令行参数 > 服务器信息
-var clitoken string
-var clitag string
-var clihost string
+var cliToken string
+var cliTag string
+var cliHost string
+var cliDuration int64
 
 func main() {
 
 	// 解析命令行
 	tag, err := os.Hostname() //获取主机名 用于default tag
 	if err != nil {
-		tag = "unknow"
+		tag = "unknown"
 	}
-	flag.StringVar(&clitoken, "token", "", "token of server")
-	flag.StringVar(&clihost, "host", "", "server ip:port, ex: 127.0.0.1:8282")
-	flag.StringVar(&clitag, "tag", tag, "server tag")
+	flag.StringVar(&cliToken, "token", "", "Server token")
+	flag.StringVar(&cliHost, "host", "", "Server ip:port, ex: 127.0.0.1:8282")
+	flag.StringVar(&cliTag, "tag", tag, "Server tag")
+	flag.Int64Var(&cliDuration, "duration", 5000, "Data send Duration, Unit:ms")
 
 	flag.Parse()
-	if flag.NArg() > 0 || clitoken == "" || clihost == "" { //未知信息
+	if flag.NArg() > 0 || cliToken == "" || cliHost == "" { //未知信息
 		flag.Usage()
 		os.Exit(0)
 	}
@@ -62,11 +64,11 @@ Exit:
 		var err error
 
 		log.Println("尝试连接到服务器")
-		ctx, cancle := context.WithTimeout(context.Background(), time.Second*5)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 
-		defer cancle()
 		go func(_ context.Context) {
-			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+clihost, nil)
+			defer cancel()
+			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+cliHost, nil)
 			if err == nil {
 				connected <- true
 			}
@@ -108,12 +110,11 @@ Exit:
 
 		go receiveHandler(&conn)
 
-		log.Println("尝试进行服务器认证")
 		data, _ := json.Marshal(config.Login{
 			Type:     "login",
 			Platform: "server",
-			Tag:      clitag,
-			Token:    clitoken,
+			Tag:      cliTag,
+			Token:    cliToken,
 		})
 		err = conn.Conn.WriteMessage(websocket.TextMessage, []byte(data))
 		if err != nil {
@@ -133,19 +134,19 @@ Exit:
 					break mainLoop
 				}
 			case <-connectingDown:
-				log.Println("与服务器失去连接,2秒后尝试重连")
+				log.Println("与服务器失去连接,2秒后重连")
 				select {
 				case <-time.After(time.Duration(2) * time.Second):
 					break mainLoop
 				case <-interrupt:
 					log.Println("Received SIGINT signal. Closing all pending connections and exiting...")
-					conn.Conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+					_ = conn.Conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
 
 					break Exit
 				}
 			case <-interrupt:
 				log.Println("Received SIGINT signal. Closing all pending connections and exiting...")
-				conn.Conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+				_ = conn.Conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
 
 				break Exit
 			}
@@ -175,11 +176,9 @@ func receiveHandler(conn *config.WsConn) {
 		}
 
 		if re["type"] == "login_success" {
-			log.Println("认证成功")
-			// 服务器主动推送信息 >
-
-			// 主动推送 服务器信息
-			go proc.GetServerInfo(conn)
+			log.Println("连接已建立")
+			// 主动推送信息 >
+			go proc.GetServerInfo(conn, proc.GetBaseInfo(), cliDuration)
 		} else if re["type"] == "ping" {
 			go proc.Ping(conn)
 		} else if re["type"] == "invalid_token" {
