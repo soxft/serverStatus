@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Helmet } from "react-helmet";
 import bTS from './class/byteToSize';
 import timeTransform from './class/timeTransform';
 import timestampToDate from './class/timestampToDate';
+import config from './config';
 import { RingProgress } from '@ant-design/charts';
 
-import { Card, Col, Row, Spin, Popover, Divider, Button } from 'antd';
+import { Card, Col, Row, Spin, Popover, Divider, Button, Typography } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
+const { Text, Link } = Typography;
 
-var ws = new ReconnectingWebSocket("ws://127.0.0.1:8282");
+var ws = new ReconnectingWebSocket(config.server);
 ws.onopen = function () {
   ws.send(JSON.stringify({ 'type': 'login' }));
 };
@@ -53,6 +56,9 @@ const App = () => {
 
 
   return <>
+    <Helmet>
+      <title>{config.title} - Powered By ServerStatus</title>
+    </Helmet>
     <Card bordered={false}>
       <Row gutter={[16, 16]}>
         {
@@ -139,6 +145,7 @@ const App = () => {
                             {...RingProgressBaseConfig}
                             percent={cpu_percent}
                           />
+                          <div style={{ height: '5px' }}></div>
                           CPU占用率
                         </Popover>
                       </Col>
@@ -155,6 +162,7 @@ const App = () => {
                             {...RingProgressBaseConfig}
                             percent={memory_percent}
                           />
+                          <div style={{ height: '5px' }}></div>
                           内存占用率
                         </Popover>
                       </Col>
@@ -171,6 +179,7 @@ const App = () => {
                             {...RingProgressBaseConfig}
                             percent={swap_percent}
                           />
+                          <div style={{ height: '5px' }}></div>
                           swap占用率
                         </Popover>
                       </Col>
@@ -187,6 +196,8 @@ const App = () => {
         }
       </Row >
     </Card >
+    <Divider />
+    <Text style={{ color: "#D3D3D3" }}>&emsp; CopyRight 2021 <Link style={{ color: "#D3D3D3" }} href="https://xsot.cn" target="_blank">xcsoft</Link> All Rights Reserved.</Text>
   </>;
 }
 
