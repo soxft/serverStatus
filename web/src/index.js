@@ -98,6 +98,7 @@ const App = () => {
                     extra={(
                       <Popover
                         placement="leftBottom"
+                        trigger="click"
                         content={(<>
                           <p>主机名: {itemData.Host.HostName}</p>
                           <p>开机时间: {timestampToDate(itemData.Host.BootTime)}</p>
