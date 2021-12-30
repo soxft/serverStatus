@@ -40,7 +40,7 @@ func main() {
 		tag = "unknown"
 	}
 	flag.StringVar(&cliToken, "token", "", "Server token")
-	flag.StringVar(&cliHost, "host", "", "Server ip:port, ex: 127.0.0.1:8282")
+	flag.StringVar(&cliHost, "host", "", "Server address (including protocol,ip and port), ex: ws://127.0.0.1:8282")
 	flag.StringVar(&cliTag, "tag", tag, "Server tag")
 	flag.Int64Var(&cliDuration, "duration", 5000, "Data send Duration, Unit:ms")
 
@@ -68,7 +68,7 @@ Exit:
 
 		go func(_ context.Context) {
 			defer cancel()
-			wsconn, _, err = websocket.DefaultDialer.Dial("ws://"+cliHost, nil)
+			wsconn, _, err = websocket.DefaultDialer.Dial(cliHost, nil)
 			if err == nil {
 				connected <- true
 			}
