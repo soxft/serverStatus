@@ -11,7 +11,7 @@ use \Workerman\Protocols\Http\Response;
 use \Class\Tool;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$http_worker = new Worker("http://0.0.0.0:2345");
+$http_worker = new Worker("http://0.0.0.0:" . WEBPORT);
 
 $http_worker->count = 1;
 

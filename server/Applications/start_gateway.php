@@ -9,7 +9,7 @@ use \GatewayWorker\Gateway;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$gateway = new Gateway("websocket://0.0.0.0:8282");
+$gateway = new Gateway("websocket://0.0.0.0:" . SERVICEPORT);
 $gateway->name = 'Server_GateWay';
 // gateway进程数
 $gateway->count = 1;
