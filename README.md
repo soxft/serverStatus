@@ -1,7 +1,6 @@
 # serverStatus
-a simple serverStatus monitor
 
-> stil under developing
+> 一个 简易的服务器探针
 
 ## PATH
 
