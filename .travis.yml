@@ -1,0 +1,13 @@
+language: go
+ 
+go:
+  - 1.16.5
+ 
+sudo: required
+
+install:
+  - export GOPATH=$HOME/gopath/src/github.com/soxft/serverStatus/client
+  - cd client & go mod download
+ 
+script:
+  - cd client
