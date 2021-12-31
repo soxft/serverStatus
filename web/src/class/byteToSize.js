@@ -5,6 +5,6 @@ const bytesToSize = (bytes) => {
         sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
         i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+    return Number((bytes / Math.pow(k, i)).toPrecision(3)).toLocaleString() + ' ' + sizes[i];
 }
 export default bytesToSize;
