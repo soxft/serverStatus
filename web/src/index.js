@@ -70,19 +70,71 @@ const App = () => {
       <title>{config.title} - Powered By ServerStatus</title>
     </Helmet>
     <Card bordered={false}>
-      <Row gutter={[10, 16]}>
+      <Row gutter={[16, 16]}>
         {
           Object.keys(serverList).map((client_id, index) => {
             if (!client_id) return <></>;
             let serverInfo = serverList[client_id]
             let itemData = serverInfo['data']
 
+            let RingProgressBaseConfig = {
+              height: 85,
+              width: 85,
+              innerRadius: 0.85,
+              radius: 1,
+              autoFit: false,
+              color: ['#5B8FF9', '#E8EDF3'],
+            }
+
             if (itemData === undefined) {
               return (
                 <Col key={index}>
                   <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
                     <Card title={serverInfo.tag}>
-                      <p>waiting response from the server</p>
+                      <Row
+                        gutter={[16, 16]}
+                        justify="space-between"
+                      >
+                        <Col
+                          span={8}
+                          align='middle'
+                        >
+                          <RingProgress
+                            {...RingProgressBaseConfig}
+                            percent={0}
+                          />
+                          <div style={{ height: '5px' }}></div>
+                          CPU占用率
+                        </Col>
+
+                        <Col
+                          span={8}
+                          align='middle'
+                        >
+                          <RingProgress
+                            {...RingProgressBaseConfig}
+                            percent={0}
+                          />
+                          <div style={{ height: '5px' }}></div>
+                          内存占用率
+                        </Col>
+
+                        <Col
+                          span={8}
+                          align='middle'
+                        >
+                          <RingProgress
+                            {...RingProgressBaseConfig}
+                            percent={0}
+                          />
+                          <div style={{ height: '5px' }}></div>
+                          swap占用率
+                        </Col>
+                      </Row>
+                      <Divider />
+                      <p>进程数: -</p>
+                      <p>在线时间: -</p>
+                      <p>负载:-, -, -</p>
                     </Card>
                   </Spin>
                 </Col>
@@ -95,13 +147,6 @@ const App = () => {
 
             if (cpu_percent === 0) cpu_percent = 0.00001 //防止样式BUG
 
-
-            let RingProgressBaseConfig = {
-              height: 100,
-              width: 100,
-              autoFit: false,
-              color: ['#5B8FF9', '#E8EDF3'],
-            }
             return (
               <Col
                 key={index}
@@ -137,10 +182,9 @@ const App = () => {
                 >
 
                   <Row
-                    gutter={[24, 16]}
+                    gutter={[16, 16]}
                     justify="space-between"
                   >
-
                     <Col
                       span={8}
                       align='middle'
