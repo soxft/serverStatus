@@ -55,4 +55,5 @@ jobs:
             npm install
         - name: build
           run: |
+            cd ./web
             npm run build
