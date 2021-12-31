@@ -70,7 +70,7 @@ const App = () => {
       <title>{config.title} - Powered By ServerStatus</title>
     </Helmet>
     <Card bordered={false}>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[10, 16]}>
         {
           Object.keys(serverList).map((client_id, index) => {
             if (!client_id) return <></>;
