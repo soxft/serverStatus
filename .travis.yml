@@ -12,3 +12,4 @@ install:
  
 script:
   - cd client
+  - go build main.go
