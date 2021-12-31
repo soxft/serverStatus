@@ -7,8 +7,7 @@ dist: xenial
 
 os: linux
 
-install:
-  - export GOPATH=$HOME/gopath/src/github.com/soxft/serverStatus/client
+install: true
  
 script:
   - cd client
