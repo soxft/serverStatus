@@ -60,7 +60,7 @@ Exit:
 					},
 					Host: config.HostData{
 						HostName:             hostInfo.Hostname,
-						UpTime:               hostInfo.Uptime,
+						UpTime:               uint64(time.Now().Unix()) - hostInfo.BootTime,
 						BootTime:             hostInfo.BootTime,
 						Procs:                hostInfo.Procs,
 						Os:                   hostInfo.OS,
