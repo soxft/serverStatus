@@ -87,7 +87,9 @@ const App = () => {
 
             if (itemData === undefined) {
               return (
-                <Col key={index}>
+                <Col
+                  key={index}
+                >
                   <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
                     <Card title={serverInfo.tag}>
                       <Row
@@ -181,8 +183,8 @@ const App = () => {
                 >
 
                   <Row
-                    gutter={[16, 16]}
-                    justify="space-around"
+                    gutter={[{ xs: 8, sm: 16, md: 24 }, 16]}
+                    justify='space-between'
                   >
                     <Col
                       span={8}
