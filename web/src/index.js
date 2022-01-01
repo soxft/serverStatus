@@ -17,17 +17,15 @@ const { Text, Link } = Typography;
 
 var ws = new ReconnectingWebSocket(config.server);
 
-var Notify
-
 ws.onopen = function () {
   ws.send(JSON.stringify({ 'type': 'login' }));
 };
 
 const connNotify = () => {
-  return message.loading('正在与服务器建立连接', 0);
+  message.loading('正在与服务器建立连接', 0);
 }
 
-Notify = connNotify()
+connNotify()
 
 const App = () => {
 
@@ -35,7 +33,8 @@ const App = () => {
 
   ws.onclose = function () {
     console.error('connection down')
-    Notify = connNotify()
+    message.destroy()
+    connNotify()
   }
 
   ws.onmessage = function (evt) {
@@ -45,7 +44,7 @@ const App = () => {
 
     if (type === 'login_success') {
       //登录成功
-      Notify()
+      message.destroy()
       message.success('连接已建立');
       setServerList(resData.server_list)
     } else if (type === 'server_offline') {
@@ -80,8 +79,8 @@ const App = () => {
             let RingProgressBaseConfig = {
               height: 85,
               width: 85,
-              innerRadius: 0.85,
-              radius: 1,
+              innerRadius: 0.83,
+              radius: 0.98,
               autoFit: false,
               color: ['#5B8FF9', '#E8EDF3'],
             }
@@ -92,7 +91,7 @@ const App = () => {
                   <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
                     <Card title={serverInfo.tag}>
                       <Row
-                        gutter={[16, 16]}
+                        gutter={[{ xs: 8, sm: 16, md: 24 }, 16]}
                         justify="space-between"
                       >
                         <Col
@@ -183,7 +182,7 @@ const App = () => {
 
                   <Row
                     gutter={[16, 16]}
-                    justify="space-between"
+                    justify="space-around"
                   >
                     <Col
                       span={8}
