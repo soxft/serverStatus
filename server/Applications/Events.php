@@ -4,7 +4,7 @@ require_once __DIR__ . "/config.php";
 
 use \GatewayWorker\Lib\Gateway;
 use \Workerman\Lib\Timer;
-use \Class\Tool;
+use \Includes\Tool;
 
 class Events
 {
