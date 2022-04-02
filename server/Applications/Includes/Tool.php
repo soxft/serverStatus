@@ -1,6 +1,6 @@
 <?php
 
-namespace Class;
+namespace Includes;
 
 class Tool
 {
